@@ -1,5 +1,6 @@
 package com.app.shopspring.exceptions;
 
+import com.app.shopspring.payLoad.APIResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -13,10 +14,10 @@ import java.util.HashMap;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<HashMap<String , String>> methodArgumentNotValidException(MethodArgumentNotValidException e){
-        HashMap<String , String> response = new HashMap<>();
-        e.getBindingResult().getAllErrors().forEach((error)->{
-            String fieldName = ((FieldError)error).getField();
+    public ResponseEntity<HashMap<String, String>> methodArgumentNotValidException(MethodArgumentNotValidException e) {
+        HashMap<String, String> response = new HashMap<>();
+        e.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             response.put(fieldName, message);
         });
@@ -24,17 +25,18 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> resourceNotFoundException(ResourceNotFoundException e){
-       String message = e.getMessage();
-       return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    public ResponseEntity<APIResponse> resourceNotFoundException(ResourceNotFoundException e) {
+        String message = e.getMessage();
+        APIResponse APIResponse = new APIResponse(message, false);
+        return new ResponseEntity<>(APIResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(APIException.class)
-    public ResponseEntity<String> apiException(APIException e){
+    public ResponseEntity<APIResponse> apiException(APIException e) {
         String message = e.getMessage();
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        APIResponse APIResponse = new APIResponse(message, false);
+        return new ResponseEntity<>(APIResponse, HttpStatus.BAD_REQUEST);
     }
-
 
 
 }
