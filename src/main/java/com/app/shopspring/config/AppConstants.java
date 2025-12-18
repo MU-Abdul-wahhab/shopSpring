@@ -8,4 +8,6 @@ public class AppConstants {
     public static final String CATEGORY_SORT_BY = "categoryName";
 
     public static final String DEFAULT_SORT_DIR = "asc";
+
+    public static final String PRODUCT_SORT_BY = "productId";
 }

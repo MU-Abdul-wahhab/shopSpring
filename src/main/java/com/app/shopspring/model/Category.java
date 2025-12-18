@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,5 +22,8 @@ public class Category {
     @NotBlank(message = "Category Name is Required")
     @Size(min = 5, message = "Category Name must Contain at least 5 Characters")
     private String categoryName;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<Product> products;
 
 }
